@@ -1,0 +1,34 @@
+import csv
+
+def read_csv(input_file):
+    data = []
+    with open(input_file, 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            data.append(row)
+    return data
+
+def reformat_data(data):
+    reformatted_data = []
+    header = data[0]
+    for i in range(1, len(data)):
+        for j in range(1, len(data[i])):
+            reformatted_data.append([data[i][0], header[j], data[i][j]])
+    return reformatted_data
+
+def write_csv(output_file, data):
+    with open(output_file, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['O', 'D', 'Demand'])
+        for row in data:
+            writer.writerow(row)
+
+def main(input_file, output_file):
+    data = read_csv(input_file)
+    reformatted_data = reformat_data(data)
+    write_csv(output_file, reformatted_data)
+
+if __name__ == "__main__":
+    input_file = 'OD 24x24.csv'  # ชื่อไฟล์ CSV ที่มีข้อมูล O-D Pair และ Demand
+    output_file = 'Y30_Auto_OD_3Column.csv'  # ชื่อไฟล์ CSV ที่จะเขียนข้อมูลที่แปลงแล้ว
+    main(input_file, output_file)
